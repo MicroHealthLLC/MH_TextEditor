@@ -7,8 +7,8 @@ App adds enhanced features to Wodo.TextEditor.
   or upload a file; change the file name, make edits, and click the Save button.
 - Search by file name or file content.
 
-<p><img src="screenshots/screenshots/MH_TextEditor__doc.jpg" /></p>
-<p><img src="screenshots/screenshots/MH_TextEditor__FilesListing_Search_Panel.jpg" /></p>
+<p><img src="screenshots/MH_TextEditor__doc.jpg" /></p>
+<p><img src="screenshots/MH_TextEditor__FilesListing_Search_Panel.jpg" /></p>
 
 ## Instructions
 - Download files.
@@ -17,4 +17,4 @@ App adds enhanced features to Wodo.TextEditor.
   If using Chrome, Opera, or any other browser that will not load index.html completely, 
      view the index.html file using a local web server (localhost, see screenshot below).
 
-<p><img src="screenshots/screenshots/MH_TextEditor__localhost.jpg" /></p>
+<p><img src="screenshots/MH_TextEditor__localhost.jpg" /></p>
