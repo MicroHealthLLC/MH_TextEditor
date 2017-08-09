@@ -7,9 +7,8 @@ App adds enhanced features to Wodo.TextEditor.
   or upload a file; change the file name, make edits, and click the Save button.
 - Search by file name or file content.
 
-https://github.com/MicroHealthLLC/MH_TextEditor/blob/master/screenshots/MH_TextEditor__doc.jpg
-
-https://github.com/MicroHealthLLC/MH_TextEditor/blob/master/screenshots/MH_TextEditor__FilesListing_Search_Panel.jpg
+<p><img src="screenshots/screenshots/MH_TextEditor__doc.jpg" /></p>
+<p><img src="screenshots/screenshots/MH_TextEditor__FilesListing_Search_Panel.jpg" /></p>
 
 ## Instructions
 - Download files.
@@ -17,5 +16,5 @@ https://github.com/MicroHealthLLC/MH_TextEditor/blob/master/screenshots/MH_TextE
   If using Firefox or Safari, drag the index.html file onto the browser window (see screenshots above).
   If using Chrome, Opera, or any other browser that will not load index.html completely, 
      view the index.html file using a local web server (localhost, see screenshot below).
-     
-https://github.com/MicroHealthLLC/MH_TextEditor/blob/master/screenshots/MH_TextEditor__localhost.jpg
+
+<p><img src="screenshots/screenshots/MH_TextEditor__localhost.jpg" /></p>
