@@ -1,0 +1,55 @@
+<!DOCTYPE HTML>
+<html style="width:100%; height:100%; margin:0px; padding:0px" xml:lang="en" lang="en">
+  <head>
+    <!--
+    This HTML page is meant to bootstrap the webodf based ODF editor. This
+    is not the HTML page hosting any collaborative editing.
+    It will run on a standard HTTP server and as usual the webodf magic
+    happens client-side in your browser.
+    This page is meant to be served out of a webodf build directory.
+    -->
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+
+    <title>MH TextEditor</title>
+    <link rel="stylesheet" href="css/style.css">
+
+    <!-- editor: start -->
+    <script src="wodotexteditor/wodotexteditor.js" type="text/javascript" charset="utf-8"></script>
+    <script src="FileSaver.js" type="text/javascript" charset="utf-8"></script>
+    <script src="localfileeditor.js" type="text/javascript" charset="utf-8"></script>
+    <!-- editor: end -->
+  </head>
+
+<body style="width:100%; height:100%; margin:0px; padding:0px;" onload="setupDocs();" onunload="saveMHTextEditor();">
+    <div id="newmenu">
+        <button id="openSliderbtn" title="Open Files Listing/Search Panel"><img src="images/glyphicons-115-list_rev.png"></button>
+        <input id="docfilename" type="text" value="doc.odt" />
+        <button id="savefilebtn" title="Save File"><img src="images/saveas.png"></button>
+        <button id="reloadbtn" title="Reset Text Editor"><img src="images/glyphicons-82-refresh_rev.png"></button>
+        <button id="resetuserbtn" title="Reset User Name Next Session"><img src="images/glyphicons-524-user-asterisk_rev.png"></button>
+    </div>
+
+    <div id="docslistingdiv">
+        <div id="list_search" class="slide slide-up">
+            <button id="closeSliderbtn" title="Close Docs Listing and Search Panel"><img src="images/glyphicons-370-collapse-top_rev.png"></button>
+            <p id="list_name"><span id="mh">MH</span>TextEditor</span></p>
+            <input type="search" id="searchfiles" name="searchfiles" />
+            <button id="searchbtn" class="flrtbtn iconbtn maplistbtn" title="Search Listing"><img src="images/glyphicons-28-search_rev.png"></button>
+            <label for="searchname"><input type="radio" name="searchwhat" id="searchname" checked /> Filename</label>
+            <label for="searchtext"><input type="radio" name="searchwhat" id="searchtext" /> Filename/Text</label>
+            <br>
+            <button id="resetmhtexteditorbtn" title="Remove All Docs From Listing"><img src="images/glyphicons-198-remove-circle_rev.png"></button>
+            <div id="fileslisting">
+            </div>
+            <div id="filesessionmsg">NOTE: Download all files before ending this session!</div>
+            <button id="closeSliderbtn2" title="Close Docs Listing and Search Panel"><img src="images/glyphicons-370-collapse-top_rev.png"></button>
+        </div>
+    </div>
+
+    <div id="editorContainer" style="width:100%; height:100%; margin:0px; padding:0px">
+    </div>
+
+    <script src="js/wodo_script.js" type="text/javascript" charset="utf-8"></script>
+ 
+  </body>
+</html>
