@@ -230,7 +230,7 @@ function createEditor() {
                 document.getElementById("searchfiles").value = "";
             }
             for (i = mh_texteditor.length - 1; i >= 0; i-=1) {
-                if ((srchinput === null) || (mh_texteditor[i].docfilename.indexOf(srchinput) > -1) || ((searchtext.checked === true) && (mh_texteditor[i].textfile.toLowerCase().indexOf(srchinput) > -1))) {
+                if ((srchinput === null) || (mh_texteditor[i].docfilename.toLowerCase().indexOf(srchinput) > -1) || ((searchtext.checked === true) && (mh_texteditor[i].textfile.toLowerCase().indexOf(srchinput) > -1))) {
                     fileslist_items = fileslist_items + '<p><button id="deletebtn' + mh_texteditor[i].id + '" class="deletefilebtn" title="Delete ' + mh_texteditor[i].docfilename + '"><img src="images/glyphicons-208-remove_rev.png"></button><button id="editbtn' + mh_texteditor[i].id + '" class="editfilebtn" title="Edit ' + mh_texteditor[i].docfilename + '"><img src="images/glyphicons-151-edit_rev.png"></button>' + mh_texteditor[i].docfilename + '</p>';
                 }
             }
