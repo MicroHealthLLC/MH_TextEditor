@@ -267,7 +267,7 @@ function createEditor() {
             "use strict";
             var thisfile = document.getElementById("docfilename").value;
             var canvasinfo = document.querySelectorAll(".webodfeditor-canvascontainer");
-            if ((presentfile_id === -1) || (thisfile !== mh_texteditor[presentfile_id].docfilename)) {
+            if (presentfile_id === -1) {
                 var this_group = {};
                 if (mh_texteditor.length > 0) {
                     var this_id = Number(mh_texteditor[mh_texteditor.length - 1].id);
@@ -282,7 +282,10 @@ function createEditor() {
                 presentfile_id = this_id;
             } else {
                 mh_texteditor[presentfile_id].textfile = canvasinfo[0].textContent;
+            //    alert(canvasinfo[0].textContent);
+            //    alert(mh_texteditor[presentfile_id].textfile);
             }
+            loadedFilename = thisfile;
             function saveByteArrayContent(err, data) {
                 if (err) {
                     alert(err);
@@ -311,7 +314,29 @@ function createEditor() {
                 if (exttest !== ".odt") {
                     alert('Doc file name must end in ".odt"!');
                 } else if (docfilename.toLowerCase() === "doc.odt") {
-                    alert('Doc file name must not be "doc.odt"!');                
+                    alert('Doc file name must not be "doc.odt"!');
+                } else {
+                    if ((presentfile_id === -1) || (docfilename === mh_texteditor[presentfile_id].docfilename)) {
+                        saveFile();
+                    } else {
+                        alert("Error, please check doc file name!");
+                    }
+                }
+            }
+        });
+
+
+        var saveasfilebtn = document.getElementById("saveasfilebtn");
+        saveasfilebtn.addEventListener("click", function () {
+            var docfilename = document.getElementById("docfilename").value.trim();
+            if ((docfilename === "") || (docfilename.toLowerCase() === ".odt")) {
+                alert("Must input doc file name!");
+            } else {
+                var exttest = docfilename.substr(-4);
+                if (exttest !== ".odt") {
+                    alert('Doc file name must end in ".odt"!');
+                } else if (docfilename.toLowerCase() === "doc.odt") {
+                    alert('Doc file name must not be "doc.odt"!');
                 } else {
                     var i = -1, found = false;
                     while ((found === false) && (i < mh_texteditor.length - 1)) {
@@ -320,16 +345,13 @@ function createEditor() {
                             found = true;
                         }
                     }
-                    if (found === false) {
-                        docfilename = docfilename.slice(0,-4).trim() + ".odt";
-                        loadedFilename = docfilename;
-                        //NOTE: Keep value = loadFilename to make sure it updated
-                        document.getElementById("docfilename").value = loadedFilename;
-                        saveFile();
-                    } else {
-                        document.getElementById("docfilename").value = "doc.odt";
-                        alert("File name already exists!");
+                    if (found === true) {
+                        alert('Change the file name, then "Save As File"!');
+                        return;
                     }
+                    presentfile_id = -1;
+                    document.getElementById("docfilename").value = docfilename;
+                    saveFile();
                 }
             }
         });
