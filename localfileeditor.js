@@ -34,9 +34,8 @@ var mh_texteditorperson = {"name": "Unknown Author"};
 
 var mh_texteditor = [];
 
-//var doc_changed = false;
-
 var presentfile_id = -1;
+
 
 function createEditor() {
     "use strict";
@@ -299,14 +298,14 @@ function createEditor() {
                 editor.setDocumentModified(false);
             }
             editor.getDocumentAsByteArray(saveByteArrayContent);
-        //    doc_changed = false;
             update_fileslisting(null);
         }
 
-
-        var savefilebtn = document.getElementById("savefilebtn");
-        savefilebtn.addEventListener("click", function () {
+        
+        function checkValid() {
             var docfilename = document.getElementById("docfilename").value.trim();
+            document.getElementById("docfilename").value = docfilename;
+            var validname = false;
             if ((docfilename === "") || (docfilename.toLowerCase() === ".odt")) {
                 alert("Must input doc file name!");
             } else {
@@ -316,43 +315,60 @@ function createEditor() {
                 } else if (docfilename.toLowerCase() === "doc.odt") {
                     alert('Doc file name must not be "doc.odt"!');
                 } else {
-                    if ((presentfile_id === -1) || (docfilename === mh_texteditor[presentfile_id].docfilename)) {
-                        saveFile();
-                    } else {
+                    validname = true;
+                }
+            }
+            return validname;
+        }
+
+
+        function checkName() {
+            var i = -1, found = false;
+            while ((found === false) && (i < mh_texteditor.length - 1)) {
+                i += 1;
+                if (mh_texteditor[i].docfilename.toLowerCase() === document.getElementById("docfilename").value.toLowerCase()) {
+                    found = true;
+                }
+            }
+            return found;           
+        }
+
+
+
+        var savefilebtn = document.getElementById("savefilebtn");
+        savefilebtn.addEventListener("click", function () {
+            var validname = checkValid();
+            if (validname === true) {
+                if (presentfile_id === -1) {
+                    var found = checkName();
+                    if (found === true) {
+                        alert("File name already exists!");
+                        document.getElementById("docfilename").value = "doc.odt";
+                        return;
+                    }
+                } else {
+                    if (document.getElementById("docfilename").value !== mh_texteditor[presentfile_id].docfilename) {
                         alert("Error, please check doc file name!");
+                        return;
                     }
                 }
+                saveFile();
             }
         });
 
 
         var saveasfilebtn = document.getElementById("saveasfilebtn");
         saveasfilebtn.addEventListener("click", function () {
-            var docfilename = document.getElementById("docfilename").value.trim();
-            if ((docfilename === "") || (docfilename.toLowerCase() === ".odt")) {
-                alert("Must input doc file name!");
-            } else {
-                var exttest = docfilename.substr(-4);
-                if (exttest !== ".odt") {
-                    alert('Doc file name must end in ".odt"!');
-                } else if (docfilename.toLowerCase() === "doc.odt") {
-                    alert('Doc file name must not be "doc.odt"!');
-                } else {
-                    var i = -1, found = false;
-                    while ((found === false) && (i < mh_texteditor.length - 1)) {
-                        i += 1;
-                        if (mh_texteditor[i].docfilename.toLowerCase() === docfilename.toLowerCase()) {
-                            found = true;
-                        }
-                    }
-                    if (found === true) {
-                        alert('Change the file name, then "Save As File"!');
-                        return;
-                    }
-                    presentfile_id = -1;
-                    document.getElementById("docfilename").value = docfilename;
-                    saveFile();
+            var validname = checkValid();
+            if (validname === true) {
+                var found = checkName();
+                if (found === true) {
+                    alert("Change file name; this name already exists!");
+                    document.getElementById("docfilename").value = "doc.odt";
+                    return;
                 }
+                presentfile_id = -1;
+                saveFile();
             }
         });
 
@@ -365,12 +381,10 @@ function createEditor() {
                     presentfile_id = -1;
                     loadedFilename = "doc.odt";
                     document.getElementById("docfilename").value = "doc.odt";
-                //    doc_changed = true;
                     var reader = new FileReader();
                     var file =  "doc.odt";
                     editor.openDocumentFromUrl(file, startEditing);
                     reader.readAsArrayBuffer(file);
-                //    editor.setDocumentModified(false);  NOTE: Leave commented until done, because so far no error
                 });
             }
         });
@@ -395,7 +409,6 @@ function createEditor() {
                 if (found === true) {
                     editor.closeDocument(function() {
                         presentfile_id = Number(mh_texteditor[i].id);
-                    //    doc_changed = true;
                         var reader = new FileReader();
                         loadedFilename = mh_texteditor[i].docfilename;
                         document.getElementById("docfilename").value = loadedFilename;
