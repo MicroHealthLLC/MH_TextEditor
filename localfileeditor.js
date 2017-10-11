@@ -281,8 +281,6 @@ function createEditor() {
                 presentfile_id = this_id;
             } else {
                 mh_texteditor[presentfile_id].textfile = canvasinfo[0].textContent;
-            //    alert(canvasinfo[0].textContent);
-            //    alert(mh_texteditor[presentfile_id].textfile);
             }
             loadedFilename = thisfile;
             function saveByteArrayContent(err, data) {
