@@ -313,11 +313,23 @@ function createEditor() {
                 } else if (docfilename.toLowerCase() === "doc.odt") {
                     alert('Doc file name must not be "doc.odt"!');                
                 } else {
-                    docfilename = docfilename.slice(0,-4).trim() + ".odt";
-                    loadedFilename = docfilename;
-                    //NOTE: Keep value = loadFilename to make sure it updated
-                    document.getElementById("docfilename").value = loadedFilename;
-                    saveFile();
+                    var i = -1, found = false;
+                    while ((found === false) && (i < mh_texteditor.length - 1)) {
+                        i += 1;
+                        if (mh_texteditor[i].docfilename.toLowerCase() === docfilename.toLowerCase()) {
+                            found = true;
+                        }
+                    }
+                    if (found === false) {
+                        docfilename = docfilename.slice(0,-4).trim() + ".odt";
+                        loadedFilename = docfilename;
+                        //NOTE: Keep value = loadFilename to make sure it updated
+                        document.getElementById("docfilename").value = loadedFilename;
+                        saveFile();
+                    } else {
+                        document.getElementById("docfilename").value = "doc.odt";
+                        alert("File name already exists!");
+                    }
                 }
             }
         });
