@@ -40,6 +40,7 @@ function setupDocs() {
         mh_texteditorperson = JSON.parse(thesemh_texteditorperson2);
     }
     createEditor();
+    document.getElementById("docfilename").value = "doc.odt";
 }
 
 
