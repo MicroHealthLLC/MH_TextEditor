@@ -7,8 +7,8 @@ button{border: none; box-shadow: none; background:transparent;}
 #reloadbtn, #savefilebtn, #saveasfilebtn {margin-left:10px;margin-right:10px;}
 #reloadbtn img {width:17px;height:18px;}
 
-#list_name {font-size:24px;font-weight:bold;color:darkorange;}
-#mh {color:#004080;}
+#list_name {margin-left:10px;font-size:24px;font-weight:bold;color:#DD9036;}
+#mh {color:#1D336F;}
 
 
 #list_search {margin-top:0px;padding:15px 10px 30px 10px;width:600px;background-color:white;border:1px solid #666;}
