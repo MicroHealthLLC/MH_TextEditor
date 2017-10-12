@@ -253,13 +253,6 @@ function createEditor() {
             } else {
                 filesessionmsg.style.display = "none";
             }
-
-            var closeSlider2 = document.getElementById("closeSliderbtn2");
-            if (mh_texteditor.length > 12) {
-                closeSlider2.style.display = "block";
-            } else {
-                closeSlider2.style.display = "none";    
-            }
         }
 
 
