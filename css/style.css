@@ -21,7 +21,7 @@ button{border: none; box-shadow: none; background:transparent;}
 #closeSliderbtn, #closeSliderbtn2 {float:right;}
 #closeSliderbtn2 {display:none;}
 #filesessionmsg {margin-top:20px; font-size: 10px; font-weight: bold; display:none;}
-
+#resetmhtexteditorbtn img {margin-right:10px;}
 
 #searchname {margin-left:180px;}
 #searchtext {margin-left:40px;}
