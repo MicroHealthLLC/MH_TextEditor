@@ -18,8 +18,7 @@ button{border: none; box-shadow: none; background:transparent;}
 #searchfiles {margin: 10px 0; padding:5px; width:500px; height: 30px; border: 1px solid #666; background:#f4f4f4;}
 
 #searchbtn img {width:18px;height:18px;}
-#closeSliderbtn, #closeSliderbtn2 {float:right;}
-#closeSliderbtn2 {display:none;}
+#closeSliderbtn {float:right;}
 #filesessionmsg {margin-top:20px; font-size: 10px; font-weight: bold; display:none;}
 #resetmhtexteditorbtn img {margin-right:10px;}
 
