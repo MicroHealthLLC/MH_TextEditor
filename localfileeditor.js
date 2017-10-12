@@ -85,6 +85,7 @@ function createEditor() {
                 window.confirm("There are unsaved changes to the file. Do you want to discard them?")) {
                 editor.closeDocument(function() {
                     presentfile_id = -1;
+                    saveasfileimg.src = "images/glyphicons-511-duplicate_dim_rev.png";
                     file = files[0];
                     reader = new FileReader();
                     reader.onloadend = onLoadEnd;
@@ -281,8 +282,10 @@ function createEditor() {
                 presentfile_id = this_id;
             } else {
                 mh_texteditor[presentfile_id].textfile = canvasinfo[0].textContent;
+                mh_texteditor[presentfile_id].docfilename = thisfile;
             }
             loadedFilename = thisfile;
+            saveasfileimg.src = "images/glyphicons-511-duplicate_rev.png";
             function saveByteArrayContent(err, data) {
                 if (err) {
                     alert(err);
@@ -328,7 +331,11 @@ function createEditor() {
                     found = true;
                 }
             }
-            return found;           
+            if (found === true) {
+                return(i);
+            } else {
+                return(-1);
+            }
         }
 
 
@@ -337,16 +344,18 @@ function createEditor() {
         savefilebtn.addEventListener("click", function () {
             var validname = checkValid();
             if (validname === true) {
+                var found = checkName();
                 if (presentfile_id === -1) {
-                    var found = checkName();
-                    if (found === true) {
-                        alert("File name already exists!");
+                    if (found > -1) {
+                        alert("Change the file name, this one already exists!");
                         document.getElementById("docfilename").value = "doc.odt";
                         return;
                     }
                 } else {
-                    if (document.getElementById("docfilename").value !== mh_texteditor[presentfile_id].docfilename) {
-                        alert("Error, please check doc file name!");
+                    if ((found !== -1) && (found !== presentfile_id)) {
+                        alert("That file name already exists for another file!");
+                        alert("found = " + found + "; presentfile_id = " + presentfile_id);
+                        document.getElementById("docfilename").value = mh_texteditor[presentfile_id].docfilename;
                         return;
                     }
                 }
@@ -357,16 +366,19 @@ function createEditor() {
 
         var saveasfilebtn = document.getElementById("saveasfilebtn");
         saveasfilebtn.addEventListener("click", function () {
-            var validname = checkValid();
-            if (validname === true) {
-                var found = checkName();
-                if (found === true) {
-                    alert("Change file name; this name already exists!");
-                    document.getElementById("docfilename").value = "doc.odt";
-                    return;
+            if (presentfile_id !== -1) {
+                var validname = checkValid();
+                if (validname === true) {
+                    var found = checkName();
+                    if (found > -1) {
+                        alert("Change the file name, this one already exists!");
+                        document.getElementById("docfilename").value = "doc.odt";
+                        return;
+                    }
+                    presentfile_id = -1;
+                    saveasfileimg.src = "images/glyphicons-511-duplicate_dim_rev.png";
+                    saveFile();
                 }
-                presentfile_id = -1;
-                saveFile();
             }
         });
 
@@ -379,6 +391,7 @@ function createEditor() {
                     presentfile_id = -1;
                     loadedFilename = "doc.odt";
                     document.getElementById("docfilename").value = "doc.odt";
+                    saveasfileimg.src = "images/glyphicons-511-duplicate_dim_rev.png";
                     var reader = new FileReader();
                     var file =  "doc.odt";
                     editor.openDocumentFromUrl(file, startEditing);
@@ -407,6 +420,7 @@ function createEditor() {
                 if (found === true) {
                     editor.closeDocument(function() {
                         presentfile_id = Number(mh_texteditor[i].id);
+                        saveasfileimg.src = "images/glyphicons-511-duplicate_rev.png";
                         var reader = new FileReader();
                         loadedFilename = mh_texteditor[i].docfilename;
                         document.getElementById("docfilename").value = loadedFilename;
