@@ -231,7 +231,7 @@ function createEditor() {
             }
             for (i = mh_texteditor.length - 1; i >= 0; i-=1) {
                 if ((srchinput === null) || (mh_texteditor[i].docfilename.toLowerCase().indexOf(srchinput) > -1) || ((searchtext.checked === true) && (mh_texteditor[i].textfile.toLowerCase().indexOf(srchinput) > -1))) {
-                    fileslist_items = fileslist_items + '<p><button id="deletebtn' + mh_texteditor[i].id + '" class="deletefilebtn" title="Delete ' + mh_texteditor[i].docfilename + '"><img src="images/glyphicons-208-remove_rev.png"></button><button id="editbtn' + mh_texteditor[i].id + '" class="editfilebtn" title="Edit ' + mh_texteditor[i].docfilename + '"><img src="images/glyphicons-151-edit_rev.png"></button>' + mh_texteditor[i].docfilename + '</p>';
+                    fileslist_items = fileslist_items + '<p><button id="deletebtn' + mh_texteditor[i].id + '" class="deletefilebtn" title="Delete ' + mh_texteditor[i].docfilename + '"><img src="images/glyphicons-208-remove.png"></button><button id="editbtn' + mh_texteditor[i].id + '" class="editfilebtn" title="Edit ' + mh_texteditor[i].docfilename + '"><img src="images/glyphicons-151-edit.png"></button>' + mh_texteditor[i].docfilename + '</p>';
                 }
             }
             this_list.innerHTML = fileslist_items;
@@ -278,7 +278,7 @@ function createEditor() {
                 mh_texteditor[presentfile_id].docfilename = thisfile;
             }
             loadedFilename = thisfile;
-            saveasfileimg.src = "images/glyphicons-511-duplicate_rev.png";
+            saveasfileimg.src = "images/glyphicons-511-duplicate.png";
             function saveByteArrayContent(err, data) {
                 if (err) {
                     alert(err);
@@ -412,7 +412,7 @@ function createEditor() {
                 if (found === true) {
                     editor.closeDocument(function() {
                         presentfile_id = Number(mh_texteditor[i].id);
-                        saveasfileimg.src = "images/glyphicons-511-duplicate_rev.png";
+                        saveasfileimg.src = "images/glyphicons-511-duplicate.png";
                         var reader = new FileReader();
                         loadedFilename = mh_texteditor[i].docfilename;
                         document.getElementById("docfilename").value = loadedFilename;
