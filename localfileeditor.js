@@ -354,7 +354,6 @@ function createEditor() {
                 } else {
                     if ((found !== -1) && (found !== presentfile_id)) {
                         alert("That file name already exists for another file!");
-                        alert("found = " + found + "; presentfile_id = " + presentfile_id);
                         document.getElementById("docfilename").value = mh_texteditor[presentfile_id].docfilename;
                         return;
                     }
