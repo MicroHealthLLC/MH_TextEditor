@@ -2,7 +2,6 @@
 var openSlider = document.getElementById("openSliderbtn"),
     slide = document.querySelector(".slide"),
     closeSlider = document.getElementById("closeSliderbtn"),
-    closeSlider2 = document.getElementById("closeSliderbtn2"),
     docslistingdiv = document.getElementById("docslistingdiv");
 
 openSlider.addEventListener("click",  function () {
@@ -11,13 +10,6 @@ openSlider.addEventListener("click",  function () {
 });
 
 closeSlider.addEventListener("click", function () {
-    slide.classList.add("slide-up");
-    setTimeout(function () {
-        docslistingdiv.style.zIndex = -2000;
-    }, 800);
-});
-
-closeSlider2.addEventListener("click", function () {
     slide.classList.add("slide-up");
     setTimeout(function () {
         docslistingdiv.style.zIndex = -2000;
