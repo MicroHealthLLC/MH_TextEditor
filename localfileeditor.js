@@ -85,7 +85,6 @@ function createEditor() {
                 window.confirm("There are unsaved changes to the file. Do you want to discard them?")) {
                 editor.closeDocument(function() {
                     presentfile_id = -1;
-                    saveasfileimg.src = "images/glyphicons-511-duplicate_dim_rev.png";
                     file = files[0];
                     reader = new FileReader();
                     reader.onloadend = onLoadEnd;
@@ -144,13 +143,14 @@ function createEditor() {
     }
 
     function save() {
-        if (editor.isDocumentModified()) {
+    //    if (editor.isDocumentModified()) {
+        if (presentfile_id === -1) {
             var checkstr = window.confirm('Click "Cancel" if this file needs to be saved on the Files Listing/Search Panel, otherwise click "OK".');
             if (checkstr === false) {
                 return;
             }
         }
-        var thisfilename = document.getElementById("docfilename").value;
+        var thisfilename = docfilename.value;
         function saveByteArrayLocally(err, data) {
             if (err) {
                 alert(err);
@@ -166,6 +166,24 @@ function createEditor() {
         }
         editor.getDocumentAsByteArray(saveByteArrayLocally);
     }
+
+
+    var downloadfilebtn = document.getElementById("downloadfilebtn");
+    downloadfilebtn.addEventListener("click", function () {
+        if ((presentfile_id !== -1) && (editor.isDocumentModified())) {
+            alert('existing doc, modified so save');
+            savefilebtn.click();
+        }
+        save();
+    });
+
+    var uploadfilebtn = document.getElementById("uploadfilebtn");
+    uploadfilebtn.addEventListener("click", function () {
+        if ((editor.isDocumentModified()) && (presentfile_id !== -1)) {
+            savefilebtn.click();
+        }
+        load();
+    });
 
 
     editorOptions = {
@@ -221,6 +239,21 @@ function createEditor() {
         });
 
 
+        var filenamediv = document.getElementById("filename_div");
+        var filenameinput = document.getElementById("filenameinput");
+        var nametype = document.getElementById("nametype");
+
+        var docfilename = document.getElementById("docfilename");
+        docfilename.addEventListener("click", function () {
+          if (docfilename.value !== "doc.odt") {
+            nametype.value = "modifyfunc";
+            if (filenamediv.style.display !== "block") {
+               filenamediv.style.display = "block";
+               filenameinput.value = docfilename.value.slice(0,-4);
+            }
+          }
+        });
+
         function update_fileslisting(srchinput) {
             "use strict";
             var i, fileslist_items = "", this_list = document.getElementById("fileslisting");
@@ -247,18 +280,90 @@ function createEditor() {
                     deletefile(this.id.slice(9));
                });
             }
+            var deletediv = document.getElementById("deletediv");
             var filesessionmsg = document.getElementById("filesessionmsg");
             if (mh_texteditor.length > 0) {
+                deletediv.style.display = "block";
                 filesessionmsg.style.display = "block";
             } else {
+                deletediv.style.display = "none";
                 filesessionmsg.style.display = "none";
             }
+            return;
         }
+
+
+
+
+        var cancelfilename = document.getElementById("cancelfilename");
+        cancelfilename.addEventListener("click", function (e) {
+          e.preventDefault();
+          filenameinput.value = "";
+          nametype.value = "newfunc";
+          filenamediv.style.display = "none";
+        });
+
+        var submitfilename = document.getElementById("submitfilename");
+        submitfilename.addEventListener("click", function (e) {
+           e.preventDefault();
+           var thisfilename = filenameinput.value.trim();
+           if (thisfilename === "") {
+              alert("Input file name!");
+              filenameinput.value = "";
+           } else if (thisfilename === "doc") {
+              alert('File name must not be "doc.odt"!');    
+              filenameinput.value = "";
+           } else {
+              thisfilename = thisfilename + ".odt";
+              var j = -1, found = false;
+              while ((found === false) && (j < mh_texteditor.length - 1)) {
+                j += 1;
+                if (thisfilename === mh_texteditor[j].docfilename) {
+                  found = true;
+                  alert("File name already exists!");
+                }
+              }
+              if (found === false) {
+                docfilename.value = thisfilename;
+                filenameinput.value = "";
+                filenamediv.style.display = "none";
+                if (nametype.value === "newfunc") {
+                  savefilebtn.click();
+                } else if (nametype.value === "modifyfunc") {
+                  nametype.value = "newfunc";
+                  mh_texteditor[presentfile_id].docfilename = docfilename.value;
+                  savefilebtn.click();
+                } else if (nametype.value === "copyfunc") {
+                  nametype.value = "newfunc";
+                  duplicateFile();
+                } else {
+                  alert("Error, illegal submit name type!");
+                  nametype.value = "newfunc";
+                }
+              }
+           }
+        });
+
+
+        function filenameform() {
+          filenamediv.style.display = "block";
+          return;
+        }
+
+        var newfilebtn = document.getElementById("newfilebtn");
+        newfilebtn.addEventListener("click", function(e) {
+          e.preventDefault();
+          if (presentfile_id !== -1) {
+            reloadbtn.click();
+          }
+          filenameform();
+        });
+
 
 
         function saveFile() {
             "use strict";
-            var thisfile = document.getElementById("docfilename").value;
+            var thisfile = docfilename.value;
             var canvasinfo = document.querySelectorAll(".webodfeditor-canvascontainer");
             if (presentfile_id === -1) {
                 var this_group = {};
@@ -278,7 +383,6 @@ function createEditor() {
                 mh_texteditor[presentfile_id].docfilename = thisfile;
             }
             loadedFilename = thisfile;
-            saveasfileimg.src = "images/glyphicons-511-duplicate.png";
             function saveByteArrayContent(err, data) {
                 if (err) {
                     alert(err);
@@ -297,16 +401,13 @@ function createEditor() {
 
         
         function checkValid() {
-            var docfilename = document.getElementById("docfilename").value.trim();
-            document.getElementById("docfilename").value = docfilename;
             var validname = false;
-            if ((docfilename === "") || (docfilename.toLowerCase() === ".odt")) {
+            var thisdocfilename = docfilename.value.trim();
+            docfilename.value = thisdocfilename;
+            if (thisdocfilename === "") {
                 alert("Must input doc file name!");
             } else {
-                var exttest = docfilename.substr(-4);
-                if (exttest !== ".odt") {
-                    alert('Doc file name must end in ".odt"!');
-                } else if (docfilename.toLowerCase() === "doc.odt") {
+                if (thisdocfilename.toLowerCase() === "doc.odt") {
                     alert('Doc file name must not be "doc.odt"!');
                 } else {
                     validname = true;
@@ -320,7 +421,7 @@ function createEditor() {
             var i = -1, found = false;
             while ((found === false) && (i < mh_texteditor.length - 1)) {
                 i += 1;
-                if (mh_texteditor[i].docfilename.toLowerCase() === document.getElementById("docfilename").value.toLowerCase()) {
+                if (mh_texteditor[i].docfilename.toLowerCase() === docfilename.value.toLowerCase()) {
                     found = true;
                 }
             }
@@ -341,13 +442,13 @@ function createEditor() {
                 if (presentfile_id === -1) {
                     if (found > -1) {
                         alert("Change the file name, this one already exists!");
-                        document.getElementById("docfilename").value = "doc.odt";
+                        docfilename.value = "doc.odt";
                         return;
                     }
                 } else {
                     if ((found !== -1) && (found !== presentfile_id)) {
                         alert("That file name already exists for another file!");
-                        document.getElementById("docfilename").value = mh_texteditor[presentfile_id].docfilename;
+                        docfilename.value = mh_texteditor[presentfile_id].docfilename;
                         return;
                     }
                 }
@@ -356,50 +457,87 @@ function createEditor() {
         });
 
 
-        var saveasfilebtn = document.getElementById("saveasfilebtn");
-        saveasfilebtn.addEventListener("click", function () {
-            if (presentfile_id !== -1) {
-                var validname = checkValid();
-                if (validname === true) {
-                    var found = checkName();
-                    if (found > -1) {
-                        alert("Change the file name, this one already exists!");
-                        document.getElementById("docfilename").value = "doc.odt";
-                        return;
-                    }
-                    presentfile_id = -1;
-                    saveasfileimg.src = "images/glyphicons-511-duplicate_dim_rev.png";
-                    saveFile();
+
+
+        function duplicateFile() {
+            "use strict";
+            var canvasinfo = document.querySelectorAll(".webodfeditor-canvascontainer");
+            var this_group = {};
+            this_group.id = Number(mh_texteditor[mh_texteditor.length - 1].id) + 1;
+            this_group.docfilename = docfilename.value;
+            this_group.textfile = canvasinfo[0].textContent;
+            mh_texteditor.push(this_group);
+            presentfile_id = this_group.id;
+            loadedFilename = docfilename.value;
+            function saveByteArrayContent(err, data) {
+                if (err) {
+                    alert(err);
+                    return;
                 }
+                // TODO: odfcontainer should have a property mimetype
+                var mimetype = "application/vnd.oasis.opendocument.text",
+                    filename = mh_texteditor[presentfile_id].docfilename,
+                    blob = new Blob([data.buffer], {type: mimetype});
+                mh_texteditor[presentfile_id].content = blob;
+                editor.setDocumentModified(false);
+            }
+            editor.getDocumentAsByteArray(saveByteArrayContent);
+            update_fileslisting(null);
+        }
+
+        
+        var duplicatefilebtn = document.getElementById("duplicatefilebtn");
+        duplicatefilebtn.addEventListener("click", function () {
+            if (presentfile_id !== -1) {
+                nametype.value = "copyfunc";
+                filenameform();
+            } else {
+                alert("May not duplicate unsaved file!");
             }
         });
 
 
         var reloadbtn = document.getElementById("reloadbtn");
         reloadbtn.addEventListener("click", function () {
-        if (!editor.isDocumentModified() ||
-                window.confirm("There are unsaved changes to the file. Do you want to discard them?")) {
-                editor.closeDocument(function() {
-                    presentfile_id = -1;
-                    loadedFilename = "doc.odt";
-                    document.getElementById("docfilename").value = "doc.odt";
-                    saveasfileimg.src = "images/glyphicons-511-duplicate_dim_rev.png";
-                    var reader = new FileReader();
-                    var file =  "doc.odt";
-                    editor.openDocumentFromUrl(file, startEditing);
-                    reader.readAsArrayBuffer(file);
-                });
+            if (editor.isDocumentModified()) {
+                if (presentfile_id !== -1) {
+                    savefilebtn.click();
+                } else {
+                    var checkstr = window.confirm('Click "Cancel" if this file needs to be saved first, otherwise click "OK".');
+                    if (checkstr === false) {
+                        filenameform();
+                        return;
+                    }
+                }
             }
+            editor.closeDocument(function() {
+                filenameinput.value = "";
+                nametype.value = "newfunc";
+                filenamediv.style.display = "none";
+                closeSliderbtn.click();
+                presentfile_id = -1;
+                loadedFilename = "doc.odt";
+                docfilename.value = "doc.odt";
+                var reader = new FileReader();
+                var file =  "doc.odt";
+                editor.openDocumentFromUrl(file, startEditing);
+                reader.readAsArrayBuffer(file);
+            });
         });
+
 
 
         function editfile(btnid) {
             "use strict";
             if (Number(btnid) !== presentfile_id) {
                 if (editor.isDocumentModified()) {
-                    var checkstr = window.confirm('Click "Cancel" if this file needs to be saved first, otherwise click "OK".');
-                    if (checkstr === false) {
-                        return;
+                    if (presentfile_id !== -1) {
+                        savefilebtn.click();
+                    } else {
+                        var checkstr = window.confirm('Click "Cancel" if this file needs to be saved first, otherwise click "OK".');
+                        if (checkstr === false) {
+                            return;
+                        }
                     }
                 }
                 var found = false, i = -1;
@@ -412,10 +550,9 @@ function createEditor() {
                 if (found === true) {
                     editor.closeDocument(function() {
                         presentfile_id = Number(mh_texteditor[i].id);
-                        saveasfileimg.src = "images/glyphicons-511-duplicate.png";
                         var reader = new FileReader();
                         loadedFilename = mh_texteditor[i].docfilename;
-                        document.getElementById("docfilename").value = loadedFilename;
+                        docfilename.value = loadedFilename;
                         var filecontent = mh_texteditor[i].content;
                         var file = URL.createObjectURL(filecontent);
                         editor.openDocumentFromUrl(file, startEditing);
@@ -446,8 +583,7 @@ function createEditor() {
             if (found === true) {
                 mh_texteditor.splice(i, 1);
                 if (Number(btnid) === presentfile_id) {
-                    var reloadbtn = document.getElementById("reloadbtn");
-                    reloadbtn.click();
+                   reloadbtn.click();
                 }
                 update_fileslisting(null);
             } else {
@@ -493,8 +629,8 @@ function createEditor() {
             person = "Unknown Author";
         });
 
-        var resetmhtexteditorbtn = document.getElementById("resetmhtexteditorbtn");
-        resetmhtexteditorbtn.addEventListener("click", function () {
+        var deleteallbtn = document.getElementById("deleteallbtn");
+        deleteallbtn.addEventListener("click", function () {
             "use strict";
             if (mh_texteditor.length > 0) {
                 var checkstr = window.confirm("Sure you want to delete all files from the listing?");
