@@ -1,28 +1,43 @@
 body {font-family: Helvetica, Arial, sans-serif;}
-button{border: none; box-shadow: none; background:transparent;}
-#docfilename {width:520px;height:20px;}
-#newmenu {width:100%;margin-top:0px; height:50px;padding:10px 5px 0px 5px;background-color:#f6f6f6;}
+button.iconbtn, button.iconbtn2 {border: none; box-shadow: none; background-color:transparent; margin: 5px 5px; padding: 5px;}
+button.iconbtn:hover {background-color:#ddd;}
+button.iconbtn2:hover {background-color:#ddd;}
+
+#docfilename {width: 300px; padding: 6px; border:none; border-bottom: 2px solid #aaa; background-color: transparent; color:#333; font-family:helvetica,arial,sans-serif;font-weight: bold; font-size: 14px;}
+#filename_div {z-index:1500; display:none;margin-top:-57px; margin-left:54px; margin-bottom:3px; background-color:#aaa; width:310px;height:40px;padding:6px 4px 8px 10px;}
+#filenameinput {width:200px;height:20px;}
+#submitfilename, #cancelfilename {margin-left:0px; margin-right:0px;}
+#submitfilename img, #cancelfilename img {width:20px; height:20px;}
+
+
+#newmenu {width:100%;margin-top:0px; height:50px;padding:10px 5px 0px 5px;background-color:#f6f6f6;background-color:#D0D0D0;}
 #openSliderbtn {margin-right:20px;}
 #openSliderbtn img {width:20px;height:18px;}
-#reloadbtn, #savefilebtn, #saveasfilebtn {margin-left:10px;margin-right:10px;}
-#savefilebtn img, #saveasfilebtn img {width:20px;height:19px;}
-#reloadbtn img {width:17px;height:18px;}
+#reloadbtn, #savefilebtn, #newfilebtn, #duplicatefilebtn, #uploadfilebtn, #downloadfilebtn {margin-left:10px;margin-right:10px;}
+#savefilebtn img, #duplicatefilebtn img {width:20px;height:19px;}
+#newfilebtn img {width:20px; height:19px;}
+#uploadfilebtn img {width:20px; height:20px;}
+#downloadfilebtn img {width:20px; height:20px;}
+#reloadbtn img {width:18px; height:19px;}
 #resetuserbtn img {width:18px;height:18px;}
 
-#list_name {margin-left:10px;font-size:24px;font-weight:bold;color:#DD9036;}
+
+
+#list_name {margin: 10px 0 10px 10px;font-family:verdana,helvetica,sans-serif;font-size:24px;font-weight:bold;color:#DD9036;}
 #mh {color:#1D336F;}
 
 
-#list_search {margin-top:0px;padding:15px 10px 30px 10px;width:600px;background-color:white;border:1px solid #666;}
-#list_search p {margin:0;}
+
+#list_search {margin-top:0px;padding:10px 10px 20px 10px;width:600px;background-color:white;border:1px solid #666;font-family:helvetica,sans-serif;font-size:14px;}
 
 
-#searchfiles {margin: 10px 0; padding:5px; width:500px; height: 30px; border: 1px solid #666; background:#f4f4f4;}
+
+#searchfiles {margin: 0 0 10px 0; padding:5px; width:500px; height: 30px; border: 1px solid #666; background:#f4f4f4;}
 
 #searchbtn img {width:18px;height:18px;}
 #closeSliderbtn {float:right;}
+#deletediv {display:none;}
 #filesessionmsg {margin-top:20px; font-size: 10px; font-weight: bold; display:none;}
-#resetmhtexteditorbtn img {margin-right:10px;width:20px;height:20px;}
 
 #searchname {margin-left:160px;}
 #searchtext {margin-left:40px;}
@@ -60,12 +75,23 @@ button{border: none; box-shadow: none; background:transparent;}
     -ms-filter: "FlipH";            
 }
 
-#fileslisting {margin-top: 20px; margin-left: 3px; width:580px;}
-#fileslisting p {margin-top: 10px; font-size: 14px;}
-.deletefilebtn img {width:14px; height:14px; margin-right: 14px;}
-.editfilebtn img {width:17px; height:15px; margin-right: 14px;}
+#fileslisting {margin:20px 10px 0px;}
+#fileslisting p {margin-top: 10px;}
+
+
+#deleteallbtn {margin-top:10px; margin-left:8px; font-size:14px; font-family: Helvetica, Arial, sans-serif;}
+#deleteallbtn img {width:20px; height:20px; margin-right:0px;}
+
+.deletefilebtn, .editfilebtn {margin-right:20px; background-color:transparent; border:none; padding: 5px 5px 3px 5px;}
+.deletefilebtn:hover, .editfilebtn:hover {background-color:#ddd;}
+.deletefilebtn img {width:14px;height:14px;}
+.editfilebtn img {width:18px;height:16px;}
+
+
 .hidden {display:none;}
 
 #editorContainer {width:100%; height:100%; margin:0px 0 0 0; padding:0px;}
 
 .webodfeditor-canvas {background-color: white;}
+
+#dijit_form_Button_1, #dijit_form_Button_2 {display:none;}
