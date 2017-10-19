@@ -33,6 +33,13 @@
         <button id="uploadfilebtn" class="iconbtn" title="Upload File"><img src="images/glyphicons-202-upload.png"></button>
         <button id="reloadbtn" class="iconbtn" title="Reset Text Editor"><img src="images/glyphicons-82-refresh.png"></button>
         <button id="resetuserbtn" class="iconbtn" title="Reset User Name Next Session"><img src="images/glyphicons-524-user-asterisk.png"></button>
+
+        <div id="filename_div">
+           <input type="text" id="filenameinput" title="File Name Textbox" placeholder="input file name" /><span id="fileext">.odt</span>
+           <input type="text" id="nametype" value="newfunc" hidden />
+           <button id="submitfilename" class="iconbtn" title="Submit File Name"><img src="images/glyphicons-194-ok-sign.png"></button>
+           <button id="cancelfilename" class="iconbtn" title="Cancel File Name"><img src="images/glyphicons-193-remove-sign.png"></button>
+        </div>
     </div>
 
     <div id="docslistingdiv">
@@ -52,14 +59,6 @@
             <div id="filesessionmsg">NOTE: Download all files before ending this session!</div>
         </div>
     </div>
-
-    <div id="filename_div">
-       <span><input type="text" id="filenameinput" title="File Name Textbox" placeholder="input file name" />.odt</span>
-       <input type="text" id="nametype" value="newfunc" hidden />
-       <button id="submitfilename" class="iconbtn" title="Submit File Name"><img src="images/glyphicons-194-ok-sign.png"></button>
-       <button id="cancelfilename" class="iconbtn" title="Cancel File Name"><img src="images/glyphicons-193-remove-sign.png"></button>
-    </div>
-
 
     <div id="editorContainer">
     </div>
