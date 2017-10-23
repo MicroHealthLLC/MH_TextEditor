@@ -368,8 +368,7 @@ function createEditor() {
             if (presentfile_id === -1) {
                 var this_group = {};
                 if (mh_texteditor.length > 0) {
-                    var this_id = Number(mh_texteditor[mh_texteditor.length - 1].id);
-                    this_id += 1;
+                    var this_id = Number(mh_texteditor[mh_texteditor.length - 1].id) + 1;
                 } else {
                     this_id = 0;
                 }
